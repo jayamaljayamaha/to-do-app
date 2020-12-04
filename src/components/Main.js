@@ -6,30 +6,41 @@ import {requestToDos} from "../Redux/ActionCreaters";
 import {bindActionCreators} from "redux";
 
 
-const mapStateToProps = (state) => (
-    {
-        todos: state.todos
-    }
-);
+const mapStateToProps = (state) => {
+    return {todos: state.todos};
 
-const mapDispatchToProps = dispatch =>
-    bindActionCreators({ requestToDos }, dispatch);
+};
+
+const mapDispatchToProps = dispatch => ({
+    requestToDos: () => {
+        dispatch(requestToDos())
+    }
+})
+
+//bindActionCreators({ requestToDos }, dispatch);
 
 class Main extends Component {
 
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
-        //this.props.requestToDos();
+        this.props.requestToDos();
 
     }
 
     render() {
+        if (this.props.loading) {
+            console.log("loading")
+        }
         console.log(this.props)
-        return(
+        return (
             <div className="App">
                 <header className="App-header">
                     <Header/>
                 </header>
-                <BodyArea/>
+                <BodyArea todos={this.props.todos}/>
             </div>
 
         );

@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import { Todos } from "./Todos";
+import { TodoReducer } from "./TodoReducer";
 
 export const RootReducer = () => {
     return(
         combineReducers({
-            Todos
+            todos: TodoReducer
         })
     );
 

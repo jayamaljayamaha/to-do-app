@@ -9,6 +9,11 @@ export const requestToDos = () => ({
     type: ActionTypes.REQUEST_TODOS,
 });
 
+export const getToDosError = (errMsg) => ({
+    type: ActionTypes.GET_TODO_ERROR,
+    payload: errMsg
+});
+
 export const addToDo = (todo) => ({
     type: ActionTypes.ADD_TODO,
     payload: todo
@@ -24,8 +29,8 @@ export const fetchToDos = async () =>  {
                 headers: myHeaders
             });
 
-        const data = await response.json();
-        return data
+        return await response.json();
+
     } catch (e) {
         console.log(e)
     }

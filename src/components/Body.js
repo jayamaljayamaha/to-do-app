@@ -4,8 +4,9 @@ import Todocard from "./Todocard";
 
 const { TextArea } = Input;
 
-function BodyArea() {
+function BodyArea({todos}) {
 
+    console.log(todos);
     const onFinish = values => {
         console.log('Success:', values);
     };
