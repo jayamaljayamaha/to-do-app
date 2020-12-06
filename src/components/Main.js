@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import Header from "./Header";
 import BodyArea from "./Body";
-import {requestToDos} from "../Redux/ActionCreaters";
-import {bindActionCreators} from "redux";
+import {addToDo, requestToDos} from "../Redux/ActionCreaters";
 
 
 const mapStateToProps = (state) => {
@@ -12,18 +11,12 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    requestToDos: () => {
-        dispatch(requestToDos())
-    }
-})
-
-//bindActionCreators({ requestToDos }, dispatch);
+    requestToDos: () => dispatch(requestToDos()),
+    addNewTodo: (data) => dispatch(addToDo(data))
+});
 
 class Main extends Component {
 
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
         this.props.requestToDos();
@@ -31,16 +24,14 @@ class Main extends Component {
     }
 
     render() {
-        if (this.props.loading) {
-            console.log("loading")
-        }
-        console.log(this.props)
+
+        //console.log(this.props)
         return (
             <div className="App">
                 <header className="App-header">
                     <Header/>
                 </header>
-                <BodyArea todos={this.props.todos}/>
+                <BodyArea todos={this.props.todos} addNewTodo={this.props.addNewTodo}/>
             </div>
 
         );

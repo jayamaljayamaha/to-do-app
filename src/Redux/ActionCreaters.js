@@ -20,6 +20,11 @@ export const addToDo = (todo) => ({
 
 });
 
+export const postNewToDo = (todo) => ({
+    type: ActionTypes.POST_TODO,
+    payload: todo
+})
+
 export const fetchToDos = async () =>  {
     try {
         let myHeaders = new Headers();
@@ -28,8 +33,9 @@ export const fetchToDos = async () =>  {
             {method: 'GET',
                 headers: myHeaders
             });
-
-        return await response.json();
+        let data = response.json();
+        console.log(data);
+        return await data;
 
     } catch (e) {
         console.log(e)
@@ -37,35 +43,21 @@ export const fetchToDos = async () =>  {
 
 };
 
-export const postToDo = (topic, desc) => (dispatch) => {
-    const newToDo = {
-        topic: topic,
-        desc: desc
-    };
+export const postToDo = async (data) => {
 
-    return fetch("localhost:4000/list", {
-        method: 'POST',
-        body: JSON.stringify(newToDo),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(response => {
-            if (response.ok) {
-                return response;
-            } else {
-                let error = new Error('Error ' + response.status + ': ' + response.statusText);
-                error.response = response;
-                throw error;
-            }
-        },
-        error => {
-            let errMsg = new Error(error.message);
-            throw errMsg
-        })
-        .then(response => response.json())
-        .then(response => dispatch(addToDo(response)))
-        .catch(error => {
-            console.log('post todo', error.message);
-            alert('Your todo could not be posted\nError: ' + error.message)
-        })
+    let myHeaders = new Headers();
+    myHeaders.set('Accept', 'application/json');
+    myHeaders.set('Content-Type', 'application/json');
+    try{
+        const response = await fetch("http://localhost:4000/list", {
+            method: 'POST',
+            body: JSON.stringify(data.payload),
+            headers: myHeaders
+        });
+
+        let res =  response.json();
+        return await res;
+    } catch (e) {
+        console.log(e)
+    }
 }
